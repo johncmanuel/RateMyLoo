@@ -3,7 +3,7 @@
 	"version": "0.1.0",
 	"private": true,
 	"scripts": {
-		"flask-dev": "pipenv install -r requirements.txt && pipenv run flask --app api/index --debug run -p 5328",
+		"flask-dev": "pipenv run flask --app api/index --debug run -p 5328",
 		"next-dev": "next dev",
 		"dev": "concurrently \"npm run next-dev\" \"npm run flask-dev\"",
 		"build": "next build",
