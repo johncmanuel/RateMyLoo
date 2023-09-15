@@ -1,12 +1,10 @@
 import Link from "next/link";
+import SignIn from "@/components/SignIn";
 
 export default function Home() {
 	return (
 		<>
-			<div>Hello world!</div>
-			<Link href="/api">
-				<code>api/index.py</code>
-			</Link>
+			<SignIn />
 		</>
 	);
 }
