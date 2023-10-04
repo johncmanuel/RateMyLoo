@@ -1,7 +1,9 @@
 import { setAuthCookies } from "next-firebase-auth";
 import initAuth from "../../utils/initAuth";
 import { NextApiRequest, NextApiResponse } from "next";
+import { initFirebaseAdminApp } from "@/utils/initFirebaseAdmin";
 
+initFirebaseAdminApp();
 initAuth();
 
 const handler = async (req: NextApiRequest, res: NextApiResponse) => {
