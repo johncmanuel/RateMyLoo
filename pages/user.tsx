@@ -13,6 +13,8 @@ const User = () => {
 	const [images, setImages] = useState<string[]>([]);
 
 	// Uploads only 1 image at a time
+	// TODO: May want to limit amount of pictures user can
+	// upload (probably around 5)
 	const uploadImage = async (f: any) => {
 		const file = f.target.files[0];
 		const filename = `images/bathroomPictures/${user.id}/${file.name}`;
@@ -21,9 +23,16 @@ const User = () => {
 		// Exclude user.id when showing name of file to user
 		setName(file.name);
 
+		const token = (await user.getIdToken()) as string;
+
+		// For better optimzation techniques on fetching, see:
+		// https://github.com/gladly-team/next-firebase-auth/blob/2c8f771e7ca286063b1b0afea9b8796832550728/example/pages/static-auth-required-loader.js#L21
 		const res = await fetch(`/api/images?file=${uriFilename}`, {
 			method: "POST",
-			headers: new Headers({ "content-type": "image/png" }),
+			headers: new Headers({
+				"content-type": "image/png",
+				Authorization: token,
+			}),
 		});
 		const { url, fields } = await res.json();
 
@@ -45,20 +54,46 @@ const User = () => {
 			try {
 				const imagesURLs = await fetch("/api/images?userOnly=1", {
 					method: "GET",
+					headers: new Headers({
+						Authorization: token,
+					}),
 				});
 				const data = await imagesURLs.json();
 				setImages(data);
 			} catch (error) {
-				console.error("error fetching image urls:", error);
+				console.error("error fetching image urls: ", error);
 			}
 		}
+	};
+
+	// Delete an image given the name of the image.
+	// Might need to make images interactable and delete
+	// them given the name of the image
+	const deleteImage = async (imgUrl: string) => {
+		// Example imgURL:
+		// https://storage.googleapis.com/xxx.appspot.com/images/bathroomPictures/123456789/img.jpg
+		const urlSegments = imgUrl.split("/");
+		const token = (await user.getIdToken()) as string;
+		const filename = urlSegments[urlSegments.length - 1];
+
+		const res = await fetch(`/api/images?file=${filename}`, {
+			method: "DELETE",
+			headers: new Headers({
+				Authorization: token,
+			}),
+		});
+		if (res.ok) return; // delete picture from user page
 	};
 
 	useEffect(() => {
 		const getImages = async () => {
 			// Get only the images for the authenticated user
+			const token = (await user.getIdToken()) as string;
 			const res = await fetch(`/api/images?userOnly=1`, {
 				method: "GET",
+				headers: new Headers({
+					Authorization: token,
+				}),
 			});
 			const data = await res.json();
 			setImages(data);
