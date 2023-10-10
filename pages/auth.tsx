@@ -4,6 +4,7 @@
 import React from "react";
 import { withUser, withUserTokenSSR, AuthAction } from "next-firebase-auth";
 import FirebaseAuth from "../components/FirebaseAuth";
+import Links from "@/components/Links";
 
 const Auth = () => (
 	<div>
@@ -14,6 +15,7 @@ const Auth = () => (
 		<div>
 			<FirebaseAuth />
 		</div>
+		<Links />
 	</div>
 );
 

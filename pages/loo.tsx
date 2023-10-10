@@ -7,9 +7,10 @@
 // Note at the bottom, there is a LoaderComponent for withUser(). A react
 // component can be used to show a loading screen or something.
 
-import React, { useCallback, useEffect, useState } from "react";
+import React from "react";
 import { useUser, withUser, AuthAction } from "next-firebase-auth";
 import Header from "../components/Header";
+import Links from "@/components/Links";
 
 const Loo = () => {
 	const AuthUser = useUser(); // the user is guaranteed to be authenticated
@@ -24,6 +25,7 @@ const Loo = () => {
 					whether one looks better than the other.
 				</p>
 			</div>
+			<Links />
 		</div>
 	);
 };

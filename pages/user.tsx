@@ -3,6 +3,7 @@ import initAuth from "@/utils/initAuth";
 import Header from "../components/Header";
 import { useEffect, useState } from "react";
 import Image from "next/image";
+import Links from "@/components/Links";
 
 initAuth();
 
@@ -139,6 +140,7 @@ const User = () => {
 					</button>
 				</div>
 			))}
+			<Links />
 		</div>
 	);
 };
