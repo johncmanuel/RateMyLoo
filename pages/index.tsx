@@ -6,7 +6,7 @@
 // client side.
 
 import React from "react";
-import { useUser, withUser, withUserTokenSSR } from "next-firebase-auth";
+import { useUser, withUser } from "next-firebase-auth";
 import Header from "@/components/Header";
 import Links from "@/components/Links";
 
@@ -24,7 +24,5 @@ const Home = () => {
 		</div>
 	);
 };
-
-export const getServerSideProps = withUserTokenSSR()();
 
 export default withUser()(Home);
