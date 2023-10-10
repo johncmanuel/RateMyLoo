@@ -1,8 +1,8 @@
-// This auth page is static. It will server-side
+// This auth page is static. It will client-side
 // redirect to the app if the user is already authenticated.
 
 import React from "react";
-import { withUser, withUserTokenSSR, AuthAction } from "next-firebase-auth";
+import { withUser, AuthAction } from "next-firebase-auth";
 import FirebaseAuth from "../components/FirebaseAuth";
 import Links from "@/components/Links";
 
@@ -19,10 +19,8 @@ const Auth = () => (
 	</div>
 );
 
-export const getServerSideProps = withUserTokenSSR({
-	whenAuthed: AuthAction.REDIRECT_TO_APP,
-})();
-
 export default withUser({
 	whenAuthed: AuthAction.REDIRECT_TO_APP,
+	whenUnauthedBeforeInit: AuthAction.RETURN_NULL,
+	whenUnauthedAfterInit: AuthAction.RENDER,
 })(Auth);
