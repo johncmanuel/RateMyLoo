@@ -1,4 +1,4 @@
-// Perform GET, POST methods for user images
+// Perform GET, POST, DELETE methods for user images
 
 import type { NextApiRequest, NextApiResponse } from "next";
 import initAuth from "@/utils/initAuth";
@@ -51,6 +51,10 @@ export default async function handler(
 				});
 			}
 		// Supports uploading 1 picture at a time
+		// TODO: May want to limit amount of pictures user can
+		// upload (probably around 5)
+		// TODO: Consider edge cases such as uploading duplicate images, rate limiting,
+		// concurrency, and more
 		case "POST":
 			const queryFile = req.query.file as string;
 			if (!queryFile) {
