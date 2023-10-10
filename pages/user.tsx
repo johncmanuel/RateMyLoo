@@ -82,7 +82,20 @@ const User = () => {
 				Authorization: token,
 			}),
 		});
-		if (res.ok) return; // delete picture from user page
+		if (res.ok) {
+			try {
+				const imagesURLs = await fetch("/api/images?userOnly=1", {
+					method: "GET",
+					headers: new Headers({
+						Authorization: token,
+					}),
+				});
+				const data = await imagesURLs.json();
+				setImages(data);
+			} catch (error) {
+				console.error("error fetching image urls: ", error);
+			}
+		}
 	};
 
 	useEffect(() => {
@@ -112,14 +125,19 @@ const User = () => {
 				accept="image/png, image/jpeg"
 			/>
 			{isUploaded && <p>Successfully uploaded {name}!</p>}
-			{images.map((imageURL: string) => (
-				<Image
-					src={imageURL}
-					alt="Picture of bathroom for current user"
-					width={200}
-					height={200}
-					priority={true}
-				/>
+			{images.map((imageURL: string, index: number) => (
+				<div key={index}>
+					<Image
+						src={imageURL}
+						alt="Picture of bathroom for current user"
+						width={200}
+						height={200}
+						priority={true}
+					/>
+					<button onClick={() => deleteImage(imageURL)}>
+						(click me) Delete image
+					</button>
+				</div>
 			))}
 		</div>
 	);

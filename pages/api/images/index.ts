@@ -79,9 +79,9 @@ export default async function handler(
 			try {
 				const filename = req.query.file;
 				if (!filename) {
-					return res
-						.status(400)
-						.json({ error: "File ID is required" });
+					return res.status(400).json({
+						error: "Bad Request: 'file' parameter is missing",
+					});
 				}
 				const filePath = `images/bathroomPictures/${userId}/${filename}`;
 				await bucket.file(filePath).delete();
