@@ -1,17 +1,30 @@
 import { useUser, withUser, AuthAction } from "next-firebase-auth";
-import initAuth from "@/utils/initAuth";
 import Header from "../components/Header";
 import { useEffect, useState } from "react";
 import Image from "next/image";
 import Links from "@/components/Links";
-
-initAuth();
 
 const User = () => {
 	const user = useUser();
 	const [isUploaded, setIsUploaded] = useState(false);
 	const [name, setName] = useState("");
 	const [images, setImages] = useState<string[]>([]);
+	const IMAGES_LIMIT = 5; // this will be an env variable in the future
+
+	const fetchUserImagesUrls = async (token: string) => {
+		try {
+			const imagesURLs = await fetch("/api/images?userOnly=1", {
+				method: "GET",
+				headers: new Headers({
+					Authorization: token,
+				}),
+			});
+			const data = await imagesURLs.json();
+			return data;
+		} catch (error) {
+			console.error("error fetching image urls: ", error);
+		}
+	};
 
 	// Uploads only 1 image at a time
 	// TODO: May want to limit amount of pictures user can
@@ -52,18 +65,8 @@ const User = () => {
 
 		if (upload.ok) {
 			setIsUploaded(true);
-			try {
-				const imagesURLs = await fetch("/api/images?userOnly=1", {
-					method: "GET",
-					headers: new Headers({
-						Authorization: token,
-					}),
-				});
-				const data = await imagesURLs.json();
-				setImages(data);
-			} catch (error) {
-				console.error("error fetching image urls: ", error);
-			}
+			const data = await fetchUserImagesUrls(token);
+			setImages(data);
 		}
 	};
 
@@ -83,36 +86,22 @@ const User = () => {
 				Authorization: token,
 			}),
 		});
+
 		if (res.ok) {
-			try {
-				const imagesURLs = await fetch("/api/images?userOnly=1", {
-					method: "GET",
-					headers: new Headers({
-						Authorization: token,
-					}),
-				});
-				const data = await imagesURLs.json();
-				setImages(data);
-			} catch (error) {
-				console.error("error fetching image urls: ", error);
-			}
+			const token = (await user.getIdToken()) as string;
+			const data = await fetchUserImagesUrls(token);
+			setImages(data);
 		}
 	};
 
 	useEffect(() => {
-		const getImages = async () => {
-			// Get only the images for the authenticated user
+		// Load user's images upon entering page
+		const im = async () => {
 			const token = (await user.getIdToken()) as string;
-			const res = await fetch(`/api/images?userOnly=1`, {
-				method: "GET",
-				headers: new Headers({
-					Authorization: token,
-				}),
-			});
-			const data = await res.json();
+			const data = await fetchUserImagesUrls(token);
 			setImages(data);
 		};
-		getImages();
+		im();
 		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, []);
 
@@ -120,12 +109,25 @@ const User = () => {
 		<div>
 			<Header email={user.email} signOut={user.signOut} />
 			<div>User page</div>
-			<p>Upload a .png or .jpg image</p>
-			<input
-				onChange={uploadImage}
-				type="file"
-				accept="image/png, image/jpeg"
-			/>
+			{images.length >= IMAGES_LIMIT ? (
+				<div>
+					you cannot upload any more images (limit is {IMAGES_LIMIT}{" "}
+					images)
+				</div>
+			) : (
+				<div>
+					<p>Upload a .png or .jpg image</p>
+					<div>
+						you may upload {IMAGES_LIMIT - images.length} more
+						images
+					</div>
+					<input
+						onChange={uploadImage}
+						type="file"
+						accept="image/png, image/jpeg"
+					/>
+				</div>
+			)}
 			{isUploaded && <p>Successfully uploaded {name}!</p>}
 			{images.map((imageURL: string, index: number) => (
 				<div key={index}>
@@ -136,7 +138,8 @@ const User = () => {
 						height={200}
 						priority={true}
 					/>
-					<button onClick={() => deleteImage(imageURL)}>
+					<div></div>
+					<button onClick={async () => await deleteImage(imageURL)}>
 						(click me) Delete image
 					</button>
 				</div>
