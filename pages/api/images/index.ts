@@ -24,7 +24,6 @@ export default async function handler(
 	try {
 		user = await verifyIdToken(token);
 	} catch (e) {
-		// eslint-disable-next-line no-console
 		console.error(e);
 		return res.status(403).json({ error: "Not authorized" });
 	}
@@ -44,10 +43,11 @@ export default async function handler(
 					imageFolder = imageFolder.concat(`/${userId}`);
 				}
 				const urls = await getImageURLs(bucket, imageFolder);
-				res.status(200).json(urls);
+				return res.status(200).json(urls);
 			} catch (error) {
-				res.status(500).json({
-					error: "failed to get urls for bathroom pictures",
+				console.error("error");
+				return res.status(500).json({
+					error: "Internal Server Error",
 				});
 			}
 		// Supports uploading 1 picture at a time
@@ -72,11 +72,11 @@ export default async function handler(
 				const [response] = await image.generateSignedPostPolicyV4(
 					options
 				);
-				console.log("response", response);
-				res.status(200).json(response);
+				// console.log("response", response);
+				return res.status(200).json(response);
 			} catch (error) {
 				console.error("Error generating signed post policy:", error);
-				res.status(500).json({ error: "Internal Server Error" });
+				return res.status(500).json({ error: "Internal Server Error" });
 			}
 		// Deletes a picture given the name of the file
 		case "DELETE":
@@ -89,13 +89,15 @@ export default async function handler(
 				}
 				const filePath = `images/bathroomPictures/${userId}/${filename}`;
 				await bucket.file(filePath).delete();
-				res.status(200).json({ success: true });
+				return res.status(200).json({ success: true });
 			} catch (error) {
 				console.error("Error deleting file:", error);
 				return res.status(500).json({ error: "Internal Server Error" });
 			}
 		default:
-			res.status(405).end(`Method '${method}' Not Allowed`);
+			return res
+				.status(405)
+				.json({ error: `Method '${method}' Not Allowed` });
 	}
 }
 
