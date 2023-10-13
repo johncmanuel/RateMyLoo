@@ -34,6 +34,10 @@ const User = () => {
 		const filename = `images/bathroomPictures/${user.id}/${file.name}`;
 		const uriFilename = encodeURIComponent(filename);
 
+		// Pretty clean way to get the string of a file extension:
+		// https://stackoverflow.com/a/4695156
+		const fileExt = file.name.split(".").pop();
+
 		// Exclude user.id when showing name of file to user
 		setName(file.name);
 
@@ -44,7 +48,7 @@ const User = () => {
 		const res = await fetch(`/api/images?file=${uriFilename}`, {
 			method: "POST",
 			headers: new Headers({
-				"content-type": "image/png",
+				"content-type": `image/${fileExt}`,
 				Authorization: token,
 			}),
 		});
@@ -121,6 +125,7 @@ const User = () => {
 						you may upload {IMAGES_LIMIT - images.length} more
 						images
 					</div>
+					{/* See full list: https://www.iana.org/assignments/media-types/media-types.xhtml#image */}
 					<input
 						onChange={uploadImage}
 						type="file"
