@@ -29,7 +29,8 @@ export default async function handler(
 	}
 	const userId = user.id;
 	const { method } = req;
-	const bucket = await getGCSStorage(method as string);
+	// const bucket = await getGCSStorage(method as string);
+	const bucket = await getGCSStorage();
 
 	switch (method) {
 		// For GET, there should be two variants: one for fetching one picture,
