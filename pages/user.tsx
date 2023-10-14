@@ -11,6 +11,14 @@ const User = () => {
 	const [images, setImages] = useState<string[]>([]);
 	const IMAGES_LIMIT = 5; // this will be an env variable in the future
 
+	// See full list of file type extensions for images:
+	// https://www.iana.org/assignments/media-types/media-types.xhtml#image
+	// This will also be an env variable in the future
+	const fileExtensions = ["png", "jpg", "webp", "jpeg"];
+
+	const mimeTypes = fileExtensions.map((extension) => `image/${extension}`);
+	const acceptedInput = mimeTypes.join(", ");
+
 	const fetchUserImagesUrls = async (token: string) => {
 		try {
 			const imagesURLs = await fetch("/api/images?userOnly=1", {
@@ -125,11 +133,11 @@ const User = () => {
 						you may upload {IMAGES_LIMIT - images.length} more
 						images
 					</div>
-					{/* See full list: https://www.iana.org/assignments/media-types/media-types.xhtml#image */}
 					<input
 						onChange={uploadImage}
 						type="file"
-						accept="image/png, image/jpeg"
+						// accept="image/png, image/jpeg"
+						accept={acceptedInput}
 					/>
 				</div>
 			)}
