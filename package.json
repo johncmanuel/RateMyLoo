@@ -4,30 +4,31 @@
 	"private": true,
 	"scripts": {
 		"dev": "next dev",
-		"build": "next build",
+		"build": "cross-env ANALYZE=true NODE_ENV=production next build",
 		"start": "next start",
 		"lint": "next lint"
 	},
 	"dependencies": {
-		"react": "latest",
-		"react-dom": "latest",
-		"next": "latest",
 		"firebase": "9.16.0",
 		"firebase-admin": "^11.9.0",
 		"firebaseui": "^6.1.0",
+		"next": "latest",
 		"next-absolute-url": "^1.2.2",
-		"next-firebase-auth": "^1.0.0-beta.0"
+		"next-firebase-auth": "^1.0.0-beta.0",
+		"react": "latest",
+		"react-dom": "latest"
 	},
 	"devDependencies": {
 		"@next/bundle-analyzer": "^13.4.9",
-		"typescript": "latest",
-		"@types/react": "latest",
 		"@types/node": "latest",
+		"@types/react": "latest",
 		"@types/react-dom": "latest",
 		"autoprefixer": "latest",
+		"cross-env": "^7.0.3",
+		"eslint": "latest",
+		"eslint-config-next": "latest",
 		"postcss": "latest",
 		"tailwindcss": "latest",
-		"eslint": "latest",
-		"eslint-config-next": "latest"
+		"typescript": "latest"
 	}
 }
