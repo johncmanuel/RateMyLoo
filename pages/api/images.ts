@@ -65,9 +65,13 @@ export default async function handler(
 			}
 			const image = bucket.file(queryFile);
 			const expiresMinutes = Date.now() + 1 * 60 * 1000;
+			const fileSizeLimitMegabytes = 10 * 1000000;
 			const options = {
 				expires: expiresMinutes,
-				fields: { "x-goog-meta-test": "data", acl: "public-read" },
+				conditions: [
+					["content-length-range", 0, fileSizeLimitMegabytes],
+				],
+				fields: { /*"x-goog-meta-test": "data",*/ acl: "public-read" },
 			};
 			try {
 				const [response] = await image.generateSignedPostPolicyV4(

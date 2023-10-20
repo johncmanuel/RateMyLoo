@@ -129,6 +129,8 @@ const User = () => {
 			) : (
 				<div>
 					<p>Upload a .png or .jpg image</p>
+					{/* See /api/images.ts in POST case. */}
+					<p>File must be less than 10 megabytes</p>
 					<div>
 						you may upload {IMAGES_LIMIT - images.length} more
 						images
