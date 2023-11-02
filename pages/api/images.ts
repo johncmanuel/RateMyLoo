@@ -88,7 +88,7 @@ export default async function handler(
 				if (userOnly === "1") {
 					let userImageFolder = imageFolder.concat(`/${userId}`);
 					const urls = await getImageURLs([userImageFolder]);
-					return res.status(200).json(urls[userImageFolder]);
+					return res.status(200).json(urls[userId]);
 				} else if (getImagesNotFromUser === "1") {
 					const userUids: string[] = [];
 					const userHistory = await firestore
