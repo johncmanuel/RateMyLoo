@@ -3,15 +3,39 @@
 import type { NextApiRequest, NextApiResponse } from "next";
 import initAuth from "@/utils/initAuth";
 import { initFirebaseAdminApp } from "@/utils/initFirebaseAdmin";
-import { getGCSStorage } from "@/utils/getGCSStorage";
+import { getGCSStorageBucket } from "@/utils/getGCSStorageBucket";
 import { getImageURLs } from "@/utils/getImageURLs";
 import { verifyIdToken } from "next-firebase-auth";
 import { getAuth } from "firebase-admin/auth";
+import { getFirestore } from "firebase-admin/firestore";
+import { UserImages } from "@/types/UserImages";
+import shuffle from "@/utils/shuffle";
 
 initFirebaseAdminApp();
 initAuth();
 
-let imageFolder = "images/bathroomPictures";
+const getUserImagesNotInUserHistory = (
+	userImgs: UserImages,
+	userHistory: UserImages
+): UserImages => {
+	const result: UserImages = {};
+
+	Object.keys(userImgs).forEach((user) => {
+		if (userHistory.hasOwnProperty(user)) {
+			const diff = userImgs[user].filter(
+				(value) => !userHistory[user].includes(value)
+			);
+			// add the user to the result if there is no
+			// difference
+			if (diff.length > 0) result[user] = diff;
+		} else {
+			// If the key is not present in the user's history,
+			// add the entire value to the result
+			result[user] = userImgs[user];
+		}
+	});
+	return result;
+};
 
 export default async function handler(
 	req: NextApiRequest,
@@ -30,10 +54,11 @@ export default async function handler(
 		console.error(e);
 		return res.status(403).json({ error: "Not authorized" });
 	}
-	const userId = user.id;
+	const userId = user.id as string;
 	const { method } = req;
 
-	const bucket = await getGCSStorage();
+	const bucket = await getGCSStorageBucket();
+	const firestore = getFirestore();
 
 	switch (method) {
 		// For GET, there should be two variants: one for fetching one picture,
@@ -57,10 +82,19 @@ export default async function handler(
 				const userOnly = req.query.userOnly as string;
 				const getImagesNotFromUser = req.query.notFromUser as string;
 
+				const imageFolder = "images/bathroomPictures";
+				// let userImageFolder;
+
 				if (userOnly === "1") {
-					imageFolder = imageFolder.concat(`/${userId}`);
+					let userImageFolder = imageFolder.concat(`/${userId}`);
+					const urls = await getImageURLs([userImageFolder]);
+					return res.status(200).json(urls[userImageFolder]);
 				} else if (getImagesNotFromUser === "1") {
 					const userUids: string[] = [];
+					const userHistory = await firestore
+						.collection("history")
+						.doc(userId)
+						.get();
 
 					// Use Firebase Auth's data to recursively retrieve the users' UID
 					// and randomly pick a UID that's not the current user to get images from.
@@ -83,13 +117,43 @@ export default async function handler(
 						});
 					}
 
-					const randomUser =
-						userUids[Math.floor(Math.random() * userUids.length)];
+					// Randomly fetch a certain amount of random user uids and
+					// populate each uid with an array of their images using getImageURLs
+					const numOfRandomUsers = 4; // this can be an env variable
+					const randomUsers = shuffle(userUids, numOfRandomUsers);
+					const randomUsersWithPath = randomUsers.map((user) =>
+						imageFolder.concat(`/${user}`)
+					);
 
-					imageFolder = imageFolder.concat(`/${randomUser}`);
+					let userImages = await getImageURLs(randomUsersWithPath);
+
+					// Get image urls in userImages but not in history
+					if (userHistory.exists) {
+						const history = userHistory.data() as UserImages;
+						userImages = getUserImagesNotInUserHistory(
+							userImages,
+							history
+						);
+					}
+
+					let mergedUrls: string[] = [];
+
+					Object.values(userImages).forEach((urls) => {
+						mergedUrls = mergedUrls.concat(urls);
+					});
+
+					return res.status(200).json(mergedUrls);
+
+					// const randomUser =
+					// 	userUids[Math.floor(Math.random() * userUids.length)];
+					// userImageFolder = imageFolder.concat(`/${randomUser}`);
 				}
-				const urls = await getImageURLs(imageFolder);
-				return res.status(200).json(urls);
+				return res.status(400).json({
+					error: "Bad Request: 'images' requires a query parameter.",
+				});
+
+				// const urls = await getImageURLs([userImageFolder as string]);
+				// return res.status(200).json(urls[userImageFolder as string]);
 			} catch (error) {
 				console.error(error);
 				return res.status(500).json({
