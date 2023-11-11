@@ -1,6 +1,6 @@
 import { getStorage } from "firebase-admin/storage";
 
-export const getGCSStorage = async (
+export const getGCSStorageBucket = async (
 	// method: string,
 	maxAgeSeconds: number = 3600
 ) => {

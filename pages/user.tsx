@@ -3,6 +3,7 @@ import Header from "../components/Header";
 import { useEffect, useState } from "react";
 import Image from "next/image";
 import Links from "@/components/Links";
+import { authFetch } from "@/utils/authFetch";
 
 const User = () => {
 	const user = useUser();
@@ -21,12 +22,7 @@ const User = () => {
 
 	const fetchUserImagesUrls = async (token: string) => {
 		try {
-			const imagesURLs = await fetch("/api/images?userOnly=1", {
-				method: "GET",
-				headers: new Headers({
-					Authorization: token,
-				}),
-			});
+			const imagesURLs = await authFetch("/api/images?userOnly=1", token);
 			const data = await imagesURLs.json();
 			return data;
 		} catch (error) {
@@ -92,12 +88,11 @@ const User = () => {
 		const token = (await user.getIdToken()) as string;
 		const filename = urlSegments[urlSegments.length - 1];
 
-		const res = await fetch(`/api/images?file=${filename}`, {
-			method: "DELETE",
-			headers: new Headers({
-				Authorization: token,
-			}),
-		});
+		const res = await authFetch(
+			`/api/images?file=${filename}`,
+			token,
+			"DELETE"
+		);
 
 		if (res.ok) {
 			const token = (await user.getIdToken()) as string;
