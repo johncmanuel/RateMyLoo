@@ -1,5 +1,10 @@
 import { init } from "next-firebase-auth";
-import { firebaseClientConfig } from "./getFirebaseClientConfig";
+import {
+	FIREBASE_PUBLIC_API_KEY,
+	FIREBASE_AUTH_DOMAIN,
+	FIREBASE_DATABASE_URL,
+	FIREBASE_PROJECT_ID,
+} from "@/env";
 
 const TWELVE_DAYS_IN_MS = 12 * 60 * 60 * 24 * 1000;
 
@@ -12,10 +17,17 @@ const initAuth = () => {
 		appPageURL: "/loo",
 		loginAPIEndpoint: "/api/login",
 		logoutAPIEndpoint: "/api/logout",
-		firebaseClientInitConfig: firebaseClientConfig,
+		firebaseClientInitConfig: {
+			apiKey: FIREBASE_PUBLIC_API_KEY!,
+			authDomain: FIREBASE_AUTH_DOMAIN,
+			databaseURL: FIREBASE_DATABASE_URL,
+			projectId: FIREBASE_PROJECT_ID,
+		},
 		cookies: {
 			name: "RateMyLoo",
 			keys: [
+				// Can't reference cookie secrets through env.ts,
+				// otherwise next-firebase-auth will complain.
 				process.env.COOKIE_SECRET_CURRENT,
 				process.env.COOKIE_SECRET_PREVIOUS,
 			],
@@ -24,7 +36,7 @@ const initAuth = () => {
 			overwrite: true,
 			path: "/",
 			sameSite: "lax",
-			secure: true,
+			secure: process.env.NODE_ENV.trim() !== "development",
 			signed: true,
 		},
 	});
