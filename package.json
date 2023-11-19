@@ -6,7 +6,8 @@
 		"dev": "next dev",
 		"build": "cross-env ANALYZE=true NODE_ENV=production next build",
 		"start": "next start",
-		"lint": "next lint"
+		"lint": "next lint",
+		"test": "playwright test"
 	},
 	"dependencies": {
 		"firebase": "9.16.0",
@@ -20,6 +21,7 @@
 	},
 	"devDependencies": {
 		"@next/bundle-analyzer": "^13.4.9",
+		"@playwright/test": "^1.39.0",
 		"@types/node": "latest",
 		"@types/react": "latest",
 		"@types/react-dom": "latest",
