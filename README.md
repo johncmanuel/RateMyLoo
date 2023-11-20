@@ -1,10 +1,38 @@
 # RateMyLoo
 
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+<!-- TODO: add a screenshot of the main page here -->
+
+A web application for users who want to share pictures of their bathrooms and rate others.
+
+## About
+
+We wanted to create something simple and funny at the same time, so that is how RateMyLoo came to be.
+
+In RateMyLoo, users are able to create an account using an email and password. After a successful login, users are presented with two pictures of bathrooms that other users have uploaded. Users can click on the bathroom they think is nicer than the other. This repeats until the user has seen all the images available in the website. From there, the user will have to wait for other users to upload more pictures of their bathrooms.
+
+## Tech Stack
+
+1. Fullstack: Next.js, React
+2. Database: Google Firestore
+3. Image Bucket: Google Cloud Storage
 
 ## Getting Started
 
-First, run the development server:
+First, install packages:
+
+```bash
+npm install
+# or
+yarn install
+# or
+pnpm install
+```
+
+Then, head over to `/docs` and follow the guide for setting up your Firebase project.
+
+Next, create your `.env.local` and paste in your for values as seen in `.env.local.example`.
+
+Finally, run the development server:
 
 ```bash
 npm run dev
@@ -40,3 +68,9 @@ You can check out [the Next.js GitHub repository](https://github.com/vercel/next
 The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
 
 Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+
+## Maintainers
+
+1. Zohair Mamdani (frontend, design),
+2. Kyle Lee (frontend, design),
+3. John Carlo Manuel (frontend, backend, database)
