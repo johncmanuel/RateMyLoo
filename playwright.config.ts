@@ -8,37 +8,30 @@ export default defineConfig({
 	outputDir: "playwright_results",
 	use: {
 		baseURL: URL,
-		storageState: "playwright/.auth/user.json",
 	},
-	// workers: 1,
 	webServer: {
 		command: "npm run dev",
 		url: URL,
 		reuseExistingServer: !process.env.CI,
 	},
+	// See different browsers to test here:
+	// https://playwright.dev/docs/browsers#configure-browsers
 	projects: [
-		// Set up project
-		{
-			name: "setup",
-			testMatch: "tests/auth.setup.ts",
-		},
 		{
 			name: "chromium",
 			use: {
 				...devices["Desktop Chrome"],
-				// Use prepared auth state.
-				storageState: "playwright/.auth/user.json",
 			},
-			dependencies: ["setup"],
 		},
-		{
-			name: "firefox",
-			use: {
-				...devices["Desktop Firefox"],
-				// Use prepared auth state.
-				storageState: "playwright/.auth/user.json",
-			},
-			dependencies: ["setup"],
-		},
+		// {
+		// 	name: "firefox",
+		// 	use: {
+		// 		...devices["Desktop Firefox"],
+		// 	},
+		// },
+		// {
+		// 	name: "webkit",
+		// 	use: { ...devices["Desktop Safari"] },
+		// },
 	],
 });
