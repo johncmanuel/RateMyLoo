@@ -17,10 +17,29 @@ export const testAuth = base.extend<{}, { account: Account }>({
 
 			const page = await browser.newPage();
 
-			// Remove analytics and fonts to improve performance
+			// page.on("request", (request) => {
+			// 	console.log(
+			// 		`Request: ${request.url()} to resource type: ${request.resourceType()}`
+			// 	);
+			// });
+
+			// Remove analytics, fonts, and other unnecessary assets and requests to improve
+			// test performance. Note that the CSS is needed for the login page.
+			// Reference: https://www.youtube.com/watch?v=hk6ND5gVdyc
 			await page.route(/(analytics|fonts)/, (route) => {
 				route.abort();
 			});
+			await page.route("**/*", (route) => {
+				route.request().resourceType() === "image"
+					? route.abort()
+					: route.continue();
+			});
+			await page.route(
+				"**/api/images*" || "**/api/firestore*",
+				(route) => {
+					route.abort();
+				}
+			);
 
 			await page.goto("/auth");
 			await page.getByLabel("Email").click();

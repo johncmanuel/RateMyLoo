@@ -35,4 +35,5 @@ yarn-error.log*
 next-env.d.ts
 
 # Playwright
-playwright/.auth
+playwright-report/
+playwright-results/

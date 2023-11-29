@@ -5,7 +5,8 @@ import { URL } from "./env";
 
 export default defineConfig({
 	testDir: "tests",
-	outputDir: "playwright_results",
+	outputDir: "playwright-results",
+	reporter: [["html"]],
 	use: {
 		baseURL: URL,
 	},
