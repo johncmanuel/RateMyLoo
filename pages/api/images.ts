@@ -83,7 +83,6 @@ export default async function handler(
 				const getImagesNotFromUser = req.query.notFromUser as string;
 
 				const imageFolder = "images/bathroomPictures";
-				// let userImageFolder;
 
 				if (userOnly === "1") {
 					let userImageFolder = imageFolder.concat(`/${userId}`);
@@ -143,17 +142,10 @@ export default async function handler(
 					});
 
 					return res.status(200).json(mergedUrls);
-
-					// const randomUser =
-					// 	userUids[Math.floor(Math.random() * userUids.length)];
-					// userImageFolder = imageFolder.concat(`/${randomUser}`);
 				}
 				return res.status(400).json({
 					error: "Bad Request: 'images' requires a query parameter.",
 				});
-
-				// const urls = await getImageURLs([userImageFolder as string]);
-				// return res.status(200).json(urls[userImageFolder as string]);
 			} catch (error) {
 				console.error(error);
 				return res.status(500).json({
@@ -181,9 +173,8 @@ export default async function handler(
 				fields: { /*"x-goog-meta-test": "data",*/ acl: "public-read" },
 			};
 			try {
-				const [response] = await image.generateSignedPostPolicyV4(
-					options
-				);
+				const [response] =
+					await image.generateSignedPostPolicyV4(options);
 				return res.status(200).json(response);
 			} catch (error) {
 				console.error("Error generating signed post policy:", error);
