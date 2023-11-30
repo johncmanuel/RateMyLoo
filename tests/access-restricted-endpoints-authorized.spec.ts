@@ -1,4 +1,4 @@
-import { testAuth } from "./auth.fixture";
+import { testAuth } from "./fixtures/auth.fixture";
 import { expect } from "@playwright/test";
 
 testAuth(

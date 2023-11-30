@@ -1,5 +1,5 @@
 import { expect } from "@playwright/test";
-import { testAuth } from "./auth.fixture";
+import { testAuth } from "./fixtures/auth.fixture";
 
 testAuth(
 	"Basic navigation around the website while authenticated",
