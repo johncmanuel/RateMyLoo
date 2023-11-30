@@ -30,6 +30,14 @@ Contains the CSS that will be used by the website.
 
 Contains the documentation for the website.
 
+## `/tests/`
+
+Contains E2E and integration test cases for this project. This can be run with `npm run test`, which will run the test cases using [Playwright](https://playwright.dev/).
+
+## `playwright.config.ts`
+
+Contains the configuration options for [Playwright](https://playwright.dev/test-configuration).
+
 ## `next.config.js`
 
 A configuration file for managing Next.js projects. [See the docs for more information](https://nextjs.org/docs/pages/api-reference/next-config-js).
