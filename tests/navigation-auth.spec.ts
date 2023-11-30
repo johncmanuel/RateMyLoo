@@ -4,16 +4,9 @@ import { testAuth } from "./auth.fixture";
 testAuth(
 	"Basic navigation around the website while authenticated",
 	async ({ page }) => {
-		// await page.route("**/*", (route) => {
-		// 	route.request().resourceType() === "image"
-		// 		? route.abort()
-		// 		: route.continue();
-		// });
-
-		// await page.route("**/api?images?notFromUser=1", (route) => {
-		// 	route.abort();
-		// });
-
+		// NOTE: in testAuth, we already visited the Loo page, technically.
+		// If the login works, then we can assume navigation to the Loo page
+		// works.
 		await expect(
 			page.locator("div").filter({ hasText: /^Sign out$/ })
 		).toBeVisible();
@@ -27,10 +20,5 @@ testAuth(
 		await expect(
 			page.locator("div").filter({ hasText: /^Sign out$/ })
 		).toBeVisible();
-
-		// await page.getByRole("link", { name: "Loo Page" }).click();
-		// await expect(
-		// 	page.locator("div").filter({ hasText: /^Sign out$/ })
-		// ).toBeVisible();
 	}
 );
