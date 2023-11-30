@@ -19,6 +19,8 @@ testAuth(
 testAuth(
 	"Authorized access restricted API endpoints using POST",
 	async ({ request }) => {
+		// No need to test if file uploads work, just test if
+		// the endpoints are working as intended.
 		const dummy = {
 			title: "dummy",
 			body: "data",
@@ -28,9 +30,9 @@ testAuth(
 		const res2 = await request.post("/api/firestore", { data: dummy });
 		expect(res2.status() === 400);
 
-		// const res3 = await request.post("/api/images?userOnly=1");
-		// expect(res3.status() === 200);
-		// const res4 = await request.post("/api/images=notFromUser=1");
-		// expect(res4.status() === 200);
+		const res3 = await request.post("/api/images?userOnly=1");
+		expect(res3.status() === 400);
+		const res4 = await request.post("/api/images=notFromUser=1");
+		expect(res4.status() === 400);
 	}
 );
