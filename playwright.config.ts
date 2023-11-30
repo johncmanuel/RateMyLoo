@@ -6,7 +6,15 @@ import { URL } from "./env";
 export default defineConfig({
 	testDir: "tests",
 	outputDir: "playwright-results",
-	reporter: [["html"]],
+	reporter: [
+		[
+			"html",
+			{
+				open:
+					process.env.NODE_ENV === "development" ? "always" : "never",
+			},
+		],
+	],
 	use: {
 		baseURL: URL,
 	},
