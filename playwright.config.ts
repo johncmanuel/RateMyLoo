@@ -6,15 +6,18 @@ import { URL } from "./env";
 export default defineConfig({
 	testDir: "tests",
 	outputDir: "playwright-results",
+	testMatch: "*tests/*.spec.ts",
+	testIgnore: "*tests/dummy",
+	fullyParallel: true,
 	reporter: [
 		[
 			"html",
 			{
-				open:
-					process.env.NODE_ENV === "development" ? "always" : "never",
+				open: process.env.CI ? "never" : "always",
 			},
 		],
 	],
+	maxFailures: process.env.CI ? 10 : undefined,
 	use: {
 		baseURL: URL,
 	},

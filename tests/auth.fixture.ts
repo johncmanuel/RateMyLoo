@@ -2,10 +2,24 @@
 // https://playwright.dev/docs/test-fixtures#worker-scoped-fixtures
 
 import { test as base, expect } from "@playwright/test";
+import { Page } from "@playwright/test";
 
 type Account = {
 	email: string;
 	password: string;
+};
+
+const runLoginProcess = async (
+	page: Page,
+	email: string,
+	password: string
+): Promise<void> => {
+	await page.goto("/auth");
+	await page.getByLabel("Email").click();
+	await page.getByLabel("Email").fill(email);
+	await page.getByLabel("Email").press("Enter");
+	await page.getByLabel("Password").fill(password);
+	await page.getByLabel("Password").press("Enter");
 };
 
 export const testAuth = base.extend<{}, { account: Account }>({
@@ -41,19 +55,13 @@ export const testAuth = base.extend<{}, { account: Account }>({
 				}
 			);
 
-			await page.goto("/auth");
-			await page.getByLabel("Email").click();
-			await page.getByLabel("Email").fill(email);
-			await page.getByLabel("Email").press("Enter");
-			await page.getByLabel("Password").fill(password);
-			await page.getByLabel("Password").press("Enter");
+			await runLoginProcess(page, email, password);
 
 			await expect(
 				page.getByText(
 					`Signed in as playwright${workerInfo.workerIndex}@test.com`
 				)
 			).toBeVisible();
-
 			await page.close();
 			await use({ email, password });
 		},
@@ -62,14 +70,9 @@ export const testAuth = base.extend<{}, { account: Account }>({
 	page: async ({ page, account }, use) => {
 		const { email, password } = account;
 
-		await page.goto("/auth");
-		await page.getByLabel("Email").click();
-		await page.getByLabel("Email").fill(email);
-		await page.getByLabel("Email").press("Enter");
-		await page.getByLabel("Password").fill(password);
-		await page.getByLabel("Password").press("Enter");
-		await expect(page.getByText(`Signed in as ${email}`)).toBeVisible();
+		await runLoginProcess(page, email, password);
 
+		await expect(page.getByText(`Signed in as ${email}`)).toBeVisible();
 		await use(page);
 	},
 });

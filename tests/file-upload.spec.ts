@@ -3,6 +3,7 @@ import { expect } from "@playwright/test";
 import path from "path";
 
 testAuth("Upload 1 picture", async ({ page }) => {
+	testAuth.slow();
 	await page.goto("/user");
 	await page
 		.locator("#uploadImage")
