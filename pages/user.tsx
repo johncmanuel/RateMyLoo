@@ -133,6 +133,7 @@ const User = () => {
 					<input
 						onChange={uploadImage}
 						type="file"
+						id="uploadImage"
 						// accept="image/png, image/jpeg"
 						accept={acceptedInput}
 					/>
