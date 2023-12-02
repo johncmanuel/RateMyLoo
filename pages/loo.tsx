@@ -15,6 +15,7 @@ import { useEffect, useState } from "react";
 import { authFetch } from "@/utils/authFetch";
 import BathroomImage from "@/components/BathroomImage";
 import shuffle from "@/utils/shuffle";
+import Footer from "../components/Footer";
 
 // Loo should only perform GET requests to user data. For other methods,
 // it should be performed in the user page.
@@ -122,6 +123,7 @@ const Loo = () => {
 				</div>
 			)}
 			<Links />
+			<Footer />
 		</div>
 	);
 };

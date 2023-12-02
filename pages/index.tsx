@@ -9,6 +9,7 @@ import React from "react";
 import { useUser, withUser } from "next-firebase-auth";
 import Header from "@/components/Header";
 import Links from "@/components/Links";
+import Footer from "../components/Footer";
 
 const Home = () => {
 	const user = useUser();
@@ -21,6 +22,7 @@ const Home = () => {
 				</div>
 			</div>
 			<Links />
+			<Footer />
 		</div>
 	);
 };

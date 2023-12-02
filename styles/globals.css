@@ -25,3 +25,34 @@ body {
     )
     rgb(var(--background-start-rgb));
 }
+/* global.css */
+
+.light-mode-toggle-button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #f3f4f6; /* Default background color for light mode */
+  color: #4b5563; /* Default text color */
+
+  /* Other button styles */
+  width: 48px;
+  height: 24px;
+  border-radius: 12px;
+  border: none;
+  cursor: pointer;
+  transition: background-color 0.3s, color 0.3s;
+}
+
+.light-mode-toggle-button.dark-mode {
+  background-color: #4b5563; /* Background color for dark mode */
+  color: #f3f4f6; /* Text color for dark mode */
+}
+.light-mode {
+  background-color: #ffffff;
+}
+
+.dark-mode {
+  background-color: #333333;
+
+  color:white;
+}
