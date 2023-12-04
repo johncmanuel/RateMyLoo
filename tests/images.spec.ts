@@ -28,7 +28,9 @@ testAuth("Upload 1 picture", async ({ page }, testInfo) => {
 	// await expect(page.locator("img")).not.toHaveJSProperty("naturalWidth", 0);
 	await attachScreenshot("file-upload", page, testInfo);
 
-	await page.getByRole("button", { name: "(click me) Delete image" }).click();
+	const btn = page.getByRole("button", { name: "(click me) Delete image" });
+	await btn.click();
+	await expect(btn).toBeHidden();
 });
 
 testAuth.skip("Check if images appear", async ({ page }, testInfo) => {
