@@ -5,7 +5,6 @@ export const getImageURLs = async (
 	folderPaths: string[]
 ): Promise<UserImages> => {
 	const bucket = getStorage().bucket();
-	// const publicUrls: string[] = [];
 	const urls: UserImages = {};
 
 	for (const path of folderPaths) {
@@ -20,11 +19,10 @@ export const getImageURLs = async (
 		if (!(path in urls)) urls[userId] = [];
 
 		for (const file of files) {
-			const publicUrl = `https://storage.googleapis.com/${bucket.name}/${file.name}`;
-			// publicUrls.push(publicUrl);
-			urls[userId].push(publicUrl);
+			urls[userId].push(
+				`https://storage.googleapis.com/${bucket.name}/${file.name}`
+			);
 		}
 	}
 	return urls;
-	// return publicUrls;
 };

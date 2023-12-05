@@ -1,9 +1,6 @@
 import { getStorage } from "firebase-admin/storage";
 
-export const getGCSStorageBucket = async (
-	// method: string,
-	maxAgeSeconds: number = 3600
-) => {
+export const getGCSStorageBucket = async (maxAgeSeconds: number = 3600) => {
 	const bucket = getStorage().bucket();
 	const origins = process.env.ALLOWED_ORIGINS?.split(",");
 	await bucket.setCorsConfiguration([
@@ -20,7 +17,5 @@ export const getGCSStorageBucket = async (
 			],
 		},
 	]);
-	// const [metadata] = await bucket.getMetadata();
-	// console.log(JSON.stringify(metadata, null, 2));
 	return bucket;
 };

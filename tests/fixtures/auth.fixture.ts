@@ -39,7 +39,12 @@ const removeAssets = async (page: Page): Promise<void> => {
 	});
 };
 
-export const testAuth = base.extend<{}, { account: Account }>({
+export const testAuth = base.extend<
+	// If need to parameterize fixtures, add in your options in first
+	// parameter. Second parameter is for setting up workers
+	{ shouldRemoveAssets: boolean },
+	{ account: Account }
+>({
 	account: [
 		async ({ browser }, use, workerInfo) => {
 			// Create a unique account for each worker
@@ -67,10 +72,12 @@ export const testAuth = base.extend<{}, { account: Account }>({
 		},
 		{ scope: "worker" },
 	],
-	page: async ({ page, account }, use) => {
+	shouldRemoveAssets: false,
+	page: async ({ page, account, shouldRemoveAssets }, use) => {
 		const { email, password } = account;
 
 		await runLoginProcess(page, email, password);
+		if (shouldRemoveAssets) await removeAssets(page);
 
 		await expect(page.getByText(`Signed in as ${email}`)).toBeVisible();
 		await use(page);
