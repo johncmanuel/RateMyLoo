@@ -16,6 +16,8 @@ import { authFetch } from "@/utils/authFetch";
 import BathroomImage from "@/components/BathroomImage";
 import shuffle from "@/utils/shuffle";
 import Footer from "../components/Footer";
+import DarkModeToggler from "../components/DarkModeToggler";
+import Tailer from "@/components/Tailer";
 
 // Loo should only perform GET requests to user data. For other methods,
 // it should be performed in the user page.
@@ -88,7 +90,9 @@ const Loo = () => {
 	};
 
 	return (
-		<div>
+		<div className="min-h-screen dark:bg-gray-900">
+			<DarkModeToggler />
+			<Tailer />
 			<Header email={user.email} signOut={user.signOut} />
 			{showImages && (
 				<div>
@@ -116,7 +120,7 @@ const Loo = () => {
 			)}
 			{currentImages.length === 0 && (
 				<div>
-					<p>
+					<p className="text-teal-500">
 						no more bathroom pictures to rate! wait for more users
 						to upload their pictures!
 					</p>

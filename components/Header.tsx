@@ -18,10 +18,14 @@ const styles = {
 	},
 	nfaVersion: {
 		fontWeight: "600",
+		color: "teal",
 	},
 	loginContainer: {
 		display: "flex",
 		alignItems: "center",
+	},
+	singedInText: {
+		color: "teal",
 	},
 };
 
@@ -30,8 +34,8 @@ const Header = ({ email, signOut }: any) => (
 		<div style={styles.loginContainer}>
 			{email ? (
 				<>
-					<p>Signed in as {email}</p>
-					<div>
+					<p style={styles.singedInText}>Signed in as {email}</p>
+					<div style={styles.singedInText}>
 						<button
 							type="button"
 							onClick={() => {

@@ -10,15 +10,19 @@ import { useUser, withUser } from "next-firebase-auth";
 import Header from "@/components/Header";
 import Links from "@/components/Links";
 import Footer from "../components/Footer";
+import DarkModeToggle from "@/components/DarkModeToggler";
+import Tailer from "@/components/Tailer";
 
 const Home = () => {
 	const user = useUser();
 	return (
-		<div>
+		<div className="min-h-screen dark:bg-gray-900">
+			<DarkModeToggle />
+			<Tailer />
 			<Header email={user.email} signOut={user.signOut} />
 			<div>
 				<div>
-					<h3>Home</h3>
+					<h3 className="text-teal-500">Home</h3>
 				</div>
 			</div>
 			<Links />
