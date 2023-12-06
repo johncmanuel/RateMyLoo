@@ -18,7 +18,7 @@ In RateMyLoo, users are able to create an account using an email and password. A
 
 ## Contributing
 
-`CONTRIBUTING.md` is currently WIP.
+See `CONTRIBUTING.md` under `/.github`.
 
 ## Deployment
 
