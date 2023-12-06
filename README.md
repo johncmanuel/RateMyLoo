@@ -16,6 +16,14 @@ In RateMyLoo, users are able to create an account using an email and password. A
 2. Database: Google Firestore
 3. Image Bucket: Google Cloud Storage
 
+## Contributing
+
+See `CONTRIBUTING.md` under `/.github`.
+
+## Deployment
+
+We use [Vercel](https://vercel.com/) to deploy our website. [Vercel](https://vercel.com/) handles auto-deployments for production and preview environments whenever changes are pushed in the main branch and non-main branches, respectively.
+
 ## Getting Started
 
 First, install packages:
@@ -43,12 +51,6 @@ pnpm dev
 # or
 bun dev
 ```
-
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
-
-You can start editing the page by modifying `pages/index.tsx`. The page auto-updates as you edit the file.
-
-[API routes](https://nextjs.org/docs/api-routes/introduction) can be accessed on [http://localhost:3000/api/hello](http://localhost:3000/api/hello). This endpoint can be edited in `pages/api/hello.ts`.
 
 The `pages/api` directory is mapped to `/api/*`. Files in this directory are treated as [API routes](https://nextjs.org/docs/api-routes/introduction) instead of React pages.
 

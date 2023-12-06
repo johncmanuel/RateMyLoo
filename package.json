@@ -1,5 +1,22 @@
 {
 	"name": "ratemyloo",
+	"author": "johncmanuel",
+	"homepage": "https://rate-my-loo.vercel.app/",
+	"license": "MIT",
+	"repository": {
+		"url": "https://github.com/johncmanuel/RateMyLoo.git"
+	},
+	"bugs": { 
+		"url": "https://github.com/johncmanuel/RateMyLoo/issues" 
+	},
+	"keywords": [
+		"firebase",
+		"nextjs",
+		"react",
+		"typescript",
+		"tailwindcss",
+		"playwright"
+	],
 	"version": "0.1.0",
 	"private": true,
 	"scripts": {
