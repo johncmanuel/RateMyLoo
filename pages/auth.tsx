@@ -4,18 +4,14 @@
 import React from "react";
 import { withUser, AuthAction } from "next-firebase-auth";
 import FirebaseAuth from "../components/FirebaseAuth";
-import Links from "@/components/Links";
+import Navigation from "@/components/NavBar";
 
 const Auth = () => (
-	<div>
-		<h3>Sign in</h3>
-		<div>
-			<p>RateMyLoo</p>
-		</div>
+	<div className="min-h-screen dark:bg-gray-900">
+		<Navigation />
 		<div>
 			<FirebaseAuth />
 		</div>
-		<Links />
 	</div>
 );
 

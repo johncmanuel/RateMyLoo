@@ -10,11 +10,12 @@
 import React from "react";
 import { useUser, withUser, AuthAction } from "next-firebase-auth";
 import Header from "../components/Header";
-import Links from "@/components/Links";
 import { useEffect, useState } from "react";
 import { authFetch } from "@/utils/authFetch";
 import BathroomImage from "@/components/BathroomImage";
 import shuffle from "@/utils/shuffle";
+import Footer from "../components/Footer";
+import Navigation from "@/components/NavBar";
 
 // Loo should only perform GET requests to user data. For other methods,
 // it should be performed in the user page.
@@ -87,7 +88,8 @@ const Loo = () => {
 	};
 
 	return (
-		<div>
+		<div className="min-h-screen dark:bg-gray-900">
+			<Navigation />
 			<Header email={user.email} signOut={user.signOut} />
 			{showImages && (
 				<div>
@@ -115,13 +117,13 @@ const Loo = () => {
 			)}
 			{currentImages.length === 0 && (
 				<div>
-					<p>
+					<p className="text-teal-500">
 						no more bathroom pictures to rate! wait for more users
 						to upload their pictures!
 					</p>
 				</div>
 			)}
-			<Links />
+			<Footer />
 		</div>
 	);
 };

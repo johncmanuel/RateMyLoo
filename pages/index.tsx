@@ -8,19 +8,16 @@
 import React from "react";
 import { useUser, withUser } from "next-firebase-auth";
 import Header from "@/components/Header";
-import Links from "@/components/Links";
+import Footer from "../components/Footer";
+import Navigation from "@/components/NavBar";
 
 const Home = () => {
 	const user = useUser();
 	return (
-		<div>
+		<div className="min-h-screen dark:bg-gray-900">
+			<Navigation />
 			<Header email={user.email} signOut={user.signOut} />
-			<div>
-				<div>
-					<h3>Home</h3>
-				</div>
-			</div>
-			<Links />
+			<Footer />
 		</div>
 	);
 };

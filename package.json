@@ -34,7 +34,8 @@
 		"next-absolute-url": "^1.2.2",
 		"next-firebase-auth": "^1.0.0-beta.0",
 		"react": "latest",
-		"react-dom": "latest"
+		"react-dom": "latest",
+		"react-icons": "^4.12.0"
 	},
 	"devDependencies": {
 		"@next/bundle-analyzer": "^13.4.9",

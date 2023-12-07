@@ -1,9 +1,13 @@
 import { useUser, withUser, AuthAction } from "next-firebase-auth";
 import Header from "../components/Header";
 import { useEffect, useState } from "react";
+import React from "react";
 import Image from "next/image";
-import Links from "@/components/Links";
+import Footer from "../components/Footer";
+import "../styles/style.module.css";
 import { authFetch } from "@/utils/authFetch";
+import Link from "next/link";
+import Navigation from "@/components/NavBar";
 
 const User = () => {
 	const user = useUser();
@@ -77,7 +81,6 @@ const User = () => {
 			setImages(data);
 		}
 	};
-
 	// Delete an image given the name of the image.
 	// Might need to make images interactable and delete
 	// them given the name of the image
@@ -113,16 +116,76 @@ const User = () => {
 	}, []);
 
 	return (
-		<div>
+		<div className="min-h-screen dark:bg-gray-900">
+			
+			<Navigation />
 			<Header email={user.email} signOut={user.signOut} />
-			<div>User page</div>
+
+			<div
+				className="flex-1 pt-36 padding-x gradient-bg"
+				style={{
+					display: "flex",
+					flexDirection: "column",
+					alignItems: "center",
+					justifyContent: "center",
+					marginTop: "100px", // Adjust the margin value as needed
+				}}
+			>
+				<h1
+					className="border-4 border-black-100 w-full h-100 p-10 text-center font-custom"
+					style={{
+						fontFamily: "Times New Roman",
+						color: "teal",
+						fontSize: "24px",
+					}}
+				>
+					This is the user page
+				</h1>
+			</div>
+
+			<div style={{ display: "flex" }}>
+				<p
+					className="m-2 p-2 rounded-lg border-2 border-blue-200 bg-blue-100 font-custom"
+					style={{
+						width: "50%",
+						marginRight: "10px",
+						fontFamily: "Times New Roman",
+						color: "teal",
+					}}
+				>
+					User Information :
+					{user ? (
+						<span>
+							<br />
+							Email: {user.email} {/* Display the user's email */}
+						</span>
+					) : (
+						<span>No user signed in</span>
+					)}
+				</p>
+
+				<p
+					className="m-2 p-2 rounded-lg border-2 border-blue-200 bg-blue-100 font-custom"
+					style={{
+						width: "50%",
+						fontFamily: "Times New Roman",
+						color: "teal",
+					}}
+				>
+					Previous History : <Link href="/loo">Press Here</Link>
+				</p>
+			</div>
+
 			{images.length >= IMAGES_LIMIT ? (
 				<div>
 					you cannot upload any more images (limit is {IMAGES_LIMIT}{" "}
 					images)
 				</div>
 			) : (
-				<div>
+				<div
+					className="m-2 p-2 rounded-lg border-2 border-blue-200 bg-gray-200"
+					style={{ color: "teal" }}
+				>
 					<p>Upload a .png or .jpg image</p>
 					{/* See /api/images.ts in POST case. */}
 					<p>File must be less than 10 megabytes</p>
@@ -139,9 +202,11 @@ const User = () => {
 					/>
 				</div>
 			)}
-			{isUploaded && <p>Successfully uploaded {name}!</p>}
+			{isUploaded && <p
+			style={{color: 'teal'}}>Successfully uploaded {name}!</p>}
 			{images.map((imageURL: string, index: number) => (
-				<div key={index}>
+				<div key={index}
+				>
 					<Image
 						src={imageURL}
 						alt="Picture of bathroom for current user"
@@ -149,13 +214,16 @@ const User = () => {
 						height={200}
 						priority={true}
 					/>
-					<div></div>
-					<button onClick={async () => await deleteImage(imageURL)}>
+					<button 
+						onClick={async () => await deleteImage(imageURL)}
+						style={{color: 'teal'}}
+					>
 						(click me) Delete image
 					</button>
 				</div>
 			))}
-			<Links />
+
+			<Footer />
 		</div>
 	);
 };
@@ -164,3 +232,5 @@ export default withUser({
 	whenUnauthedBeforeInit: AuthAction.SHOW_LOADER,
 	whenUnauthedAfterInit: AuthAction.REDIRECT_TO_LOGIN,
 })(User);
+
+//potneially add footer
