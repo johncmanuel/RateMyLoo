@@ -17,11 +17,6 @@ const Home = () => {
 		<div className="min-h-screen dark:bg-gray-900">
 			<Navigation />
 			<Header email={user.email} signOut={user.signOut} />
-			<div>
-				<div>
-					<h3 className="text-teal-500">Home</h3>
-				</div>
-			</div>
 			<Footer />
 		</div>
 	);

@@ -49,8 +49,8 @@ const Header = ({ email, signOut }: any) => (
 				</>
 			) : (
 				<>
-					<p>You are not signed in.</p>
-					<div>
+					<p style={styles.singedInText}>You are not signed in.</p>
+					<div style={styles.singedInText}>
 						<Link href="/auth">
 							<button type="button" style={styles.button}>
 								Sign in
