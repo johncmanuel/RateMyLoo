@@ -201,9 +201,11 @@ const User = () => {
 					/>
 				</div>
 			)}
-			{isUploaded && <p>Successfully uploaded {name}!</p>}
+			{isUploaded && <p
+			style={{color: 'teal'}}>Successfully uploaded {name}!</p>}
 			{images.map((imageURL: string, index: number) => (
-				<div key={index}>
+				<div key={index}
+				>
 					<Image
 						src={imageURL}
 						alt="Picture of bathroom for current user"
@@ -211,8 +213,10 @@ const User = () => {
 						height={200}
 						priority={true}
 					/>
-					<div></div>
-					<button onClick={async () => await deleteImage(imageURL)}>
+					<button 
+						onClick={async () => await deleteImage(imageURL)}
+						style={{color: 'teal'}}
+					>
 						(click me) Delete image
 					</button>
 				</div>
