@@ -6,8 +6,8 @@ import Image from "next/image";
 import Footer from "../components/Footer";
 import "../styles/style.module.css";
 import { authFetch } from "@/utils/authFetch";
-import DarkModeToggler from "../components/DarkModeToggler";
 import Link from "next/link";
+import Navigation from "@/components/NavBar";
 
 const User = () => {
 	const user = useUser();
@@ -117,13 +117,8 @@ const User = () => {
 
 	return (
 		<div className="min-h-screen dark:bg-gray-900">
-			<DarkModeToggler />
-
-			{/* TODO: add navbar here via component */}
-
-			{/* TODO: wrap this div elem in a component and import it here */}
-			<div style={{ borderTop: "2px solid #fff ", marginTop: 20 }} />
-
+			
+			<Navigation />
 			<Header email={user.email} signOut={user.signOut} />
 
 			<div

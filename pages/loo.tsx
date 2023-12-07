@@ -10,14 +10,12 @@
 import React from "react";
 import { useUser, withUser, AuthAction } from "next-firebase-auth";
 import Header from "../components/Header";
-import Links from "@/components/Links";
 import { useEffect, useState } from "react";
 import { authFetch } from "@/utils/authFetch";
 import BathroomImage from "@/components/BathroomImage";
 import shuffle from "@/utils/shuffle";
 import Footer from "../components/Footer";
-import DarkModeToggler from "../components/DarkModeToggler";
-import Tailer from "@/components/Tailer";
+import Navigation from "@/components/NavBar";
 
 // Loo should only perform GET requests to user data. For other methods,
 // it should be performed in the user page.
@@ -91,8 +89,7 @@ const Loo = () => {
 
 	return (
 		<div className="min-h-screen dark:bg-gray-900">
-			<DarkModeToggler />
-			<Tailer />
+			<Navigation />
 			<Header email={user.email} signOut={user.signOut} />
 			{showImages && (
 				<div>
@@ -126,7 +123,6 @@ const Loo = () => {
 					</p>
 				</div>
 			)}
-			<Links />
 			<Footer />
 		</div>
 	);
