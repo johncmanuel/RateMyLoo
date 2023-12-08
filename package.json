@@ -24,7 +24,8 @@
 		"build": "cross-env ANALYZE=true NODE_ENV=production next build",
 		"start": "next start",
 		"lint": "next lint",
-		"test": "playwright test"
+		"test": "playwright test",
+		"pretty": "prettier --write \"./**/*.{js,jsx,mjs,cjs,ts,tsx,json}\"" 
 	},
 	"dependencies": {
 		"firebase": "9.16.0",

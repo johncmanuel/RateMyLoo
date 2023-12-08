@@ -7,16 +7,16 @@ import FirebaseAuth from "../components/FirebaseAuth";
 import Navigation from "@/components/NavBar";
 
 const Auth = () => (
-	<div className="min-h-screen dark:bg-gray-900">
-		<Navigation />
-		<div>
-			<FirebaseAuth />
-		</div>
-	</div>
+  <div className="min-h-screen dark:bg-gray-900">
+    <Navigation />
+    <div>
+      <FirebaseAuth />
+    </div>
+  </div>
 );
 
 export default withUser({
-	whenAuthed: AuthAction.REDIRECT_TO_APP,
-	whenUnauthedBeforeInit: AuthAction.RETURN_NULL,
-	whenUnauthedAfterInit: AuthAction.RENDER,
+  whenAuthed: AuthAction.REDIRECT_TO_APP,
+  whenUnauthedBeforeInit: AuthAction.RETURN_NULL,
+  whenUnauthedAfterInit: AuthAction.RENDER,
 })(Auth);
